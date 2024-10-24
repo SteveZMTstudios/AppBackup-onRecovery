@@ -2,7 +2,8 @@
 A suite of scripts used to backup app data on recovery. Suitable for that device cannot boot properly.
 
 Recovery 应用备份套件，适用于安卓12+设备。用于在无法启动到Android时备份应急的应用数据。
-人送外号"Titanium Backup for Recovery" (bushi
+
+~~人送外号"Titanium Backup for Recovery" (bushi~~
 
 在twrp和orangefox中测试良好。
 
