@@ -26,6 +26,18 @@ Recovery环境下的应用备份套件，适用于安卓11+设备。用于在无
 此脚本仅用于无法启动系统时的紧急应用备份。
 
 ## Usage 用法
+### Before you start 开始之前
+You should have a recovery environment that can give you a shell with root permission.
+
+Your console should have `adb` `git` `tar` and `gzip` installed.
+
+Your computer should installed mtp driver and adb driver.
+
+你应该有一个可以给你root权限的recovery环境。
+
+你的终端应该安装了`adb` `git` `tar` 和 `gzip`。
+
+你的电脑应该安装了mtp驱动和adb驱动。
 
 ### Backup 备份
 
@@ -77,13 +89,41 @@ Then wait.
 
 
 ### Restore 还原
-Unzip to move files by your self. :)
+Power on your device, give shell `root` permission.
 
-(Cause the restore script is not completed yet.)
+Push the Full Backup file into device. File name should be like `complete_backup.tar.gz`
 
-解压缩后自行移动文件。:)
+Then unzip it directly. You will get a folder named `EmergencyBak`.
 
-(因为还原脚本尚未完成。=.=)
+Download the **restore.sh**, the push into device.
+
+Add run permission to this file.
+
+Then wait.
+
+打开设备，给予shell `root` 权限。
+
+推送完整备份文件到设备。文件名应该像 `complete_backup.tar.gz`
+
+然后直接解压。你将得到一个名为 `EmergencyBak` 的文件夹。
+
+下载 **restore.sh**，然后推送到设备。
+
+添加运行权限。
+
+然后等待。
+
+```shell
+adb push /path/to/your/backup/folder/complete_backup.tar.gz /sdcard
+adb shell tar -xvf /sdcard/complete_backup.tar.gz
+git clone https://github.com/SteveZMTstudios/AppBackup-onRecovery.git
+cd AppBackup-onRecovery
+adb push ./restore.sh /data/local/tmp
+adb shell chmod +x /data/local/tmp/restore.sh
+adb shell sh /data/local/tmp/restore.sh
+```
+
+> Verbose version is also available. Use `sh /data/local/tmp/restore.sh -v` to enable verbose mode.
 
 ## Features 功能
 
@@ -99,11 +139,19 @@ App when restored may not work properly. (Because some app require a match Andro
 
 Some data may still lost. (Because some app doen't store data in /data/data/ or they should store in.)
 
+Not good at split apk.
+
+Slow on large app. (Because the script will backup all files in /data/data/)
+
 不适用于安卓10及以下。(因为Android 11以后变更了apk的目录结构)
 
 还原后的应用可能无法正常工作。(因为一些应用需要匹配Android ID或更多)
 
 一些数据可能仍然丢失。(因为一些应用不会存储数据在/data/data/或者他们应该存储的位置。)
+
+不擅长Split apk。
+
+大型应用上速度较慢。(因为脚本会备份/data/data/中的所有文件。)
 
 脚本使用的是英文（你不能苛责这一点！不是所有的Recovery都带中文！）
 
