@@ -49,6 +49,7 @@ ui_print "- Backup dir created."
 num=0
 # read packages.xml
 packages_file="/data/system/packages.xml"
+ui_print "- Backing Up packages.xml."
 grep '<package name=' $packages_file | while read -r line; do
     # get package name and code path
     package_name=$(echo $line | sed -n 's/.*name="\([^"]*\)".*/\1/p')
