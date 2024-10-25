@@ -1,7 +1,7 @@
 # AppBackup-onRecovery
 A suite of scripts used to backup app data on recovery. Suitable for that device cannot boot properly.
 
-Recovery 应用备份套件，适用于安卓12+设备。用于在无法启动到Android时备份应急的应用数据。
+Recovery 应用备份套件，适用于安卓12+设备（因为没有在更低版本中测试）。用于在无法启动到Android时备份应急的应用数据。
 
 ~~人送外号"Titanium Backup for Recovery" (bushi~~
 
