@@ -3,8 +3,6 @@ A suite of scripts used to backup app data on recovery. Suitable for that device
 
 Recovery环境下的应用备份套件，适用于安卓11+设备。用于在无法启动到Android时备份应急的应用数据。
 
-~~人送外号"Titanium Backup for Recovery" (bushi~~
-
 在twrp和orangefox中测试良好。
 
 > 10.24程序员节快乐（
@@ -22,6 +20,10 @@ Recovery环境下的应用备份套件，适用于安卓11+设备。用于在无
 #  You have been warned!                   #  你已经被警告！                            
 #########################################################################################
 ```
+
+如果您有更多要求，请使用功能更全的[backup-script](https://github.com/YAWAsau/backup_script)(来自其他开发者的作品).
+
+此脚本仅用于无法启动系统时的紧急应用备份。
 
 ## Usage 用法
 

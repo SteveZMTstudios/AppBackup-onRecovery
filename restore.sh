@@ -13,6 +13,18 @@
 #  You have been warned!                   #
 ############################################
 
+DEBUG=0
+
+# verbose when "-v" is passed as an argument
+if [[ $1 == "-v" || $DEBUG == "1" ]]; then
+    set -x
+    alias cp='cp -v'
+    alias tar='tar -v'
+    alias rm='rm -v'
+    alias mkdir='mkdir -v'
+fi
+
+
 ui_print() {
     echo -e "$1"
 }
@@ -43,12 +55,20 @@ if ! command -v pm &> /dev/null; then
     exit 1
 fi
 
+touch /sdcard/Backup/failed_installs.log
+
 backup_dir="/sdcard/EmergencyBak/"
 for backup_file in $backup_dir*.tar.gz; do
     # unzip backup data
     temp_restore_dir="/data/local/tmp/restore_$(basename $backup_file .tar.gz)"
+    
+    if [ -z "$temp_restore_dir" ] || [ "$temp_restore_dir" == "/" ]; then
+        ui_print "! Temporary restore directory is null or root, exiting."
+        error_handler $LINENO
+    fi
+
     mkdir -p $temp_restore_dir
-    tar -xzvf $backup_file -C $temp_restore_dir
+    tar -xzf $backup_file -C $temp_restore_dir
 
 #   /sdcard/EmergencyBak/
     #            |---<packagename>-backup.tar.gz (now $temp_restore_dir)
@@ -73,50 +93,56 @@ for backup_file in $backup_dir*.tar.gz; do
     if ! pm install -r $apk_path; then
         echo "$package_name" >> /sdcard/Backup/failed_installs.log
         ui_print "! Failed to install $package_name, saved to /sdcard/Backup/failed_installs.log"
+        continue
     fi
 
-    # restore app data
-    if [ -d "$temp_restore_dir/data_data/$package_name/data/data" ]; then
-        ui_print "- Restoring data for $package_name"
-        cp -r $temp_restore_dir/data_data/$package_name/data/data /data/data
-    fi
-
-    if [ -d "$temp_restore_dir/data_user/$package_name/data/user/0" ]; then
-        ui_print "- Restoring user data for $package_name"
-        cp -r $temp_restore_dir/data_user/$package_name/data/user/0 /data/user/0
-    fi
-
-    if [ -d "$temp_restore_dir/data_user_de/$package_name/data/user_de/0" ]; then
-        ui_print "- Restoring user_de data for $package_name"
-        cp -r $temp_restore_dir/data_user_de/$package_name/data/user_de/0 /data/user_de/0
-    fi
-
-    if [ -d "$temp_restore_dir/media_obb/$package_name/data/media" ]; then
-        ui_print "- Restoring obb for $package_name"
-        cp -r $temp_restore_dir/media_obb/$package_name/data/media/obb /data/media/obb/
-    fi
-
-    if [ -d "$temp_restore_dir/media_data/$package_name" ]; then
-        ui_print "- Restoring public data for $package_name"
-        cp -r $temp_restore_dir/media_data/$package_name /data/media/Android/data/
-    fi
-
-    # get user_id
-    user_id=$(pm list packages -3 -U | grep "$package_name" | awk -F 'uid:' '{print $2}')
-
+   # get user_id
+    user_id=0
+    user_id=$(pm list packages -3 -U | grep "$package_name" | awk -F 'uid:' '{print $2}' | grep -o '[1-9][0-9]*$')
+    # Format user_id: Remove leading '1' and all leading zeros
+    cleaned_value=$(echo "$user_id" | sed 's/^1//' | sed 's/^0*//')
+    user_id=$cleaned_value
     if [ -z "$user_id" ]; then
         ui_print "! Failed to get user ID for $package_name"
         echo "$package_name" >> /sdcard/Backup/failed_user_ids.log
         continue
     fi
 
-    # chown owner and user group
-    chown -R system:system /data/app/$package_name
-    chown -R u0_a$user_id:u0_a$user_id /data/user/0/$package_name
-    chown -R u0_a$user_id:u0_a$user_id /data/user_de/0/$package_name
-    chown -R media_rw:media_rw /data/media/obb/$package_name
-    chown -R media_rw:media_rw /data/media/Android/data/$package_name
+    # restore app data
+    if [ -d "$temp_restore_dir/data_data/data/data" ]; then
+        ui_print "- Restoring data for $package_name"
+        cp -r $temp_restore_dir/data_data/data/data/$package_name /data/data/$package_name
+        chown -R u0_a$user_id:u0_a$user_id /data/data/$package_name
+    fi
 
+    if [ -d "$temp_restore_dir/data_user/data/user/0" ]; then
+        ui_print "- Restoring user data for $package_name"
+        cp -r $temp_restore_dir/data_user/data/user/0/$package_name /data/user/0/$package_name
+        chown -R u0_a$user_id:u0_a$user_id /data/user/0/$package_name
+    fi
+
+    if [ -d "$temp_restore_dir/data_user_de/data/user_de/0" ]; then
+        ui_print "- Restoring user_de data for $package_name"
+        cp -r $temp_restore_dir/data_user_de/data/user_de/0//$package_name /data/user_de/0/$package_name
+        chown -R u0_a$user_id:u0_a$user_id /data/user_de/0/$package_name
+    fi
+
+    if [ -d "$temp_restore_dir/media_obb/data/media" ]; then
+        ui_print "- Restoring obb for $package_name"
+        cp -r $temp_restore_dir/media_obb/data/media/obb/$package_name /data/media/obb/$package_name
+        chown -R media_rw:media_rw /data/media/obb/$package_name
+    fi
+
+    if [ -d "$temp_restore_dir/media_data/$package_name" ]; then
+        ui_print "- Restoring public data for $package_name"
+        cp -r $temp_restore_dir/media_data/$package_name /data/media/Android/data/
+        chown -R media_rw:media_rw /data/media/Android/data/$package_name
+    fi
+
+    # get user_id
+ 
+    # chown owner and user group
+    #chown -R system:system /data/app/$package_name
 
     if [ -z "$temp_restore_dir" ] || [ "$temp_restore_dir" == "/" ]; then
         ui_print "! Temporary restore directory is null or root, exiting."

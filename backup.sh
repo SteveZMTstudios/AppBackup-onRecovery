@@ -11,9 +11,9 @@
 #  Use at your own risk.                   #
 #  You have been warned!                   #
 ############################################
-
+DEBUG=0
 # verbose when "-v" is passed as an argument
-if [[ $1 == "-v" ]]; then
+if [[ $1 == "-v" ] || [ $DEBUG == "1" ]]; then
     set -x
     alias cp='cp -v'
     alias tar='tar -v'
