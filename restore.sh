@@ -20,10 +20,15 @@ ui_print "================================"
 
 # check root
 if [[ $(id -u) -ne 0 ]]; then
-    echo "This script must be run as root"
+    echo "! This script must be run as root."
     exit 1
 fi
 
+# check running on Android
+if ! command -v pm &> /dev/null; then
+    echo "! This script must be run on Android."
+    exit 1
+fi
 
 backup_dir="/sdcard/EmergencyBak/"
 for backup_file in $backup_dir*.tar.gz; do
@@ -52,6 +57,7 @@ for backup_file in $backup_dir*.tar.gz; do
     apk_path=$(find $temp_restore_dir/data/app -type f -name "base.apk" | grep "$package_name")
     if ! pm install -r $apk_path; then
         echo "$package_name" >> /sdcard/Backup/failed_installs.log
+        echo "! Failed to install $package_name, saved to /sdcard/Backup/failed_installs.log"
     fi
 
     # restore apk data
@@ -67,6 +73,7 @@ for backup_file in $backup_dir*.tar.gz; do
     chown -R u0_a$user_id:u0_a$user_id /data/user_de/$package_name
     chown -R media_rw:media_rw /data/media/obb/$package_name
     chown -R media_rw:media_rw /data/media/Android/data/$package_name
+
 
     rm -rf $temp_restore_dir
 done
