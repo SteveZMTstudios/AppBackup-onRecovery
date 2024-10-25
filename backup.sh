@@ -12,6 +12,16 @@
 #  You have been warned!                   #
 ############################################
 
+# verbose when "-v" is passed as an argument
+if [[ $1 == "-v" ]]; then
+    set -x
+    alias cp='cp -v'
+    alias tar='tar -v'
+    alias rm='rm -v'
+    alias mkdir='mkdir -v'
+fi
+
+# 963103607
 
 error_handler() {
     echo "Error occurred at line $1."
