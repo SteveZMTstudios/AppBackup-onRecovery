@@ -23,6 +23,8 @@ Recovery 应用备份套件，适用于安卓12+设备。用于在无法启动�
 ## Usage 用法
 
 ### Backup 备份
+
+#### Direct use by Script 直接使用脚本
 Download the **backup.sh**, the push into device.
 
 Add run permission to this file.
@@ -40,6 +42,12 @@ adb shell sh /tmp/backup.sh
 ```
 
 > Verbose version is also available. Use `sh /tmp/backup_verbose.sh` to use verbose ver.
+
+#### Via Install Zip 通过安装zip包
+Download the **backup.zip**, then install it in recovery.
+
+Then wait.
+
 
 ### Restore 还原
 Unzip to move files by your self. :)

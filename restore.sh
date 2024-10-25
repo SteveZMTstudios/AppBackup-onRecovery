@@ -18,10 +18,12 @@ ui_print "Restore Script"
 ui_print "By: SteveZMTstudios"
 ui_print "================================"
 
+# check root
 if [[ $(id -u) -ne 0 ]]; then
     echo "This script must be run as root"
     exit 1
 fi
+
 
 backup_dir="/sdcard/EmergencyBak/"
 for backup_file in $backup_dir*.tar.gz; do
@@ -29,13 +31,27 @@ for backup_file in $backup_dir*.tar.gz; do
     temp_restore_dir="/tmp/restore_$(basename $backup_file .tar.gz)"
     mkdir -p $temp_restore_dir
     tar -xzvf $backup_file -C $temp_restore_dir
+#   /sdcard/EmergencyBak/
+#            |---<packagename>-backup.tar.gz (now $temp_restore_dir)
+#                    |---|- data
+#                        |   |- app (same as /data/app/*)
+#                        |- data_data
+#                        |  |- data
+#                        |       |- data (same as /data/data/*)
+#                        |- data_user
+#                        |- data_user_de
+#                        |- media_data
+#                        |- media_obb
+
+
 
     # get packagename
     package_name=$(basename $backup_file _backup.tar.gz)
 
     # install apk
-    if ! pm install -r $temp_restore_dir/$package_name.apk; then
-        echo "$package_name" >> /sdcard/failed_installs.log
+    apk_path=$(find $temp_restore_dir/data/app -type f -name "base.apk" | grep "$package_name")
+    if ! pm install -r $apk_path; then
+        echo "$package_name" >> /sdcard/Backup/failed_installs.log
     fi
 
     # restore apk data
@@ -52,6 +68,5 @@ for backup_file in $backup_dir*.tar.gz; do
     chown -R media_rw:media_rw /data/media/obb/$package_name
     chown -R media_rw:media_rw /data/media/Android/data/$package_name
 
-    # remove temp dir
     rm -rf $temp_restore_dir
 done
