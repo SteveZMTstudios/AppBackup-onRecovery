@@ -11,15 +11,15 @@ Recovery环境下的应用备份套件，适用于安卓11+设备。用于在无
 
 ```bash
 #########################################################################################
-#  WARNING:                                #  警告：                                    #
-#  We are not responsible for dead sdcard, #  我们不对SD卡损坏，数据丢失，核战争，或者  #
-#  lost data, nuclear war, or you getting  #  你因为闹钟不响铃而被解雇负责。            #
-#  fired because the alarm app failed.     #                                            #
-#  This script is only for emergency use.  #  此脚本仅用于紧急情况。                    #
-#  The backup data may not be complete.    #  备份数据可能不完整。                      #
-#  We not guarantee the backup data.       #  我们不保证备份数据。                      #
-#  Use at your own risk.                   #  请自行承担风险。                          #
-#  You have been warned!                   #  你已经被警告！                            #
+#  WARNING:                                #  警告：                                    
+#  We are not responsible for dead sdcard, #  我们不对SD卡损坏，数据丢失，核战争，或者  
+#  lost data, nuclear war, or you getting  #  你因为闹钟不响铃而被解雇负责。            
+#  fired because the alarm app failed.     #                                            
+#  This script is only for emergency use.  #  此脚本仅用于紧急情况。                    
+#  The backup data may not be complete.    #  备份数据可能不完整。                      
+#  We not guarantee the backup data.       #  我们不保证备份数据。                      
+#  Use at your own risk.                   #  请自行承担风险。                          
+#  You have been warned!                   #  你已经被警告！                            
 #########################################################################################
 ```
 

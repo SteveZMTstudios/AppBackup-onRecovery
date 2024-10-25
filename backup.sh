@@ -21,22 +21,22 @@ if [[ $1 == "-v" ]]; then
     alias mkdir='mkdir -v'
 fi
 
-# 963103607
-
-error_handler() {
-    echo "Error occurred at line $1."
-    echo "Exiting the script."
-    # Perform any necessary cleanup here
-    rm -rf /tmp/backup_*
-    exit 1
-}
-
 ui_print() {
     
     echo "$1"
 #    echo "ui_print $1" > /proc/self/fd/0
 #    echo "ui_print $1" > /proc/self/fd/1
 }
+
+error_handler() {
+    ui_print "Error occurred at line $1."
+    ui_print "Exiting the script."
+    # Perform any necessary cleanup here
+    rm -rf /tmp/backup_*
+    exit 1
+}
+
+
 
 
 ui_print "Emergency Backup Script"
