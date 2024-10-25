@@ -54,8 +54,11 @@ if ! command -v pm &> /dev/null; then
     ui_print "! This script must be run on Android."
     exit 1
 fi
-
+mkdir -p /sdcard/Backup/
 touch /sdcard/Backup/failed_installs.log
+touch /sdcard/Backup/failed_user_ids.log
+date >> /sdcard/Backup/failed_installs.log
+date >> /sdcard/Backup/failed_user_ids.log
 
 backup_dir="/sdcard/EmergencyBak/"
 for backup_file in $backup_dir*.tar.gz; do

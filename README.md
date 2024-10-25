@@ -21,9 +21,9 @@ Recovery环境下的应用备份套件，适用于安卓11+设备。用于在无
 #########################################################################################
 ```
 
-如果您有更多要求，请使用功能更全的[backup-script](https://github.com/YAWAsau/backup_script)(来自其他开发者的作品).
+如果您有更多要求，请使用功能更全的[backup-script](https://github.com/YAWAsau/backup_script)(来自其他开发者的作品，需要设备在开机状态时已创建zip侧载包).
 
-此脚本仅用于无法启动系统时的紧急应用备份。
+此脚本可用于无法启动系统时的紧急应用备份,。
 
 ## Usage 用法
 ### Before you start 开始之前
@@ -115,12 +115,13 @@ Then wait.
 
 ```shell
 adb push /path/to/your/backup/folder/complete_backup.tar.gz /sdcard
-adb shell tar -xvf /sdcard/complete_backup.tar.gz
+adb shell mkdir /sdcard/EmergencyBak
+adb shell tar -xvf /sdcard/complete_backup.tar.gz -C /sdcard/EmergencyBak
 git clone https://github.com/SteveZMTstudios/AppBackup-onRecovery.git
 cd AppBackup-onRecovery
 adb push ./restore.sh /data/local/tmp
 adb shell chmod +x /data/local/tmp/restore.sh
-adb shell sh /data/local/tmp/restore.sh
+adb shell su -c "sh /data/local/tmp/restore.sh"
 ```
 
 > Verbose version is also available. Use `sh /data/local/tmp/restore.sh -v` to enable verbose mode.
