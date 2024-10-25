@@ -111,25 +111,25 @@ for backup_file in $backup_dir*.tar.gz; do
     # restore app data
     if [ -d "$temp_restore_dir/data_data/data/data" ]; then
         ui_print "- Restoring data for $package_name"
-        cp -r $temp_restore_dir/data_data/data/data/$package_name /data/data/$package_name
+        cp -r $temp_restore_dir/data_data/data/data/$package_name /data/data/
         chown -R u0_a$user_id:u0_a$user_id /data/data/$package_name
     fi
 
     if [ -d "$temp_restore_dir/data_user/data/user/0" ]; then
         ui_print "- Restoring user data for $package_name"
-        cp -r $temp_restore_dir/data_user/data/user/0/$package_name /data/user/0/$package_name
+        cp -r $temp_restore_dir/data_user/data/user/0/$package_name /data/user/0/
         chown -R u0_a$user_id:u0_a$user_id /data/user/0/$package_name
     fi
 
     if [ -d "$temp_restore_dir/data_user_de/data/user_de/0" ]; then
         ui_print "- Restoring user_de data for $package_name"
-        cp -r $temp_restore_dir/data_user_de/data/user_de/0//$package_name /data/user_de/0/$package_name
+        cp -r $temp_restore_dir/data_user_de/data/user_de/0//$package_name /data/user_de/0/
         chown -R u0_a$user_id:u0_a$user_id /data/user_de/0/$package_name
     fi
 
     if [ -d "$temp_restore_dir/media_obb/data/media" ]; then
         ui_print "- Restoring obb for $package_name"
-        cp -r $temp_restore_dir/media_obb/data/media/obb/$package_name /data/media/obb/$package_name
+        cp -r $temp_restore_dir/media_obb/data/media/obb/$package_name /data/media/obb/
         chown -R media_rw:media_rw /data/media/obb/$package_name
     fi
 
