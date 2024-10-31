@@ -158,3 +158,20 @@ for backup_file in $backup_dir*.tar.gz; do
     fi
 
 done
+
+# Restore DCIM and Pictures folders
+ui_print "- Restoring DCIM and Pictures folders"
+
+if [ -d "$backup_dir/DCIM" ]; then
+    ui_print "- Restoring DCIM folder"
+    cp -r $backup_dir/DCIM /sdcard/
+#    chown -R media_rw:media_rw /sdcard/DCIM
+fi
+
+if [ -d "$backup_dir/Pictures" ]; then
+    ui_print "- Restoring Pictures folder"
+    cp -r $backup_dir/Pictures /sdcard/
+#    chown -R media_rw:media_rw /sdcard/Pictures
+fi
+
+ui_print "Restore completed."

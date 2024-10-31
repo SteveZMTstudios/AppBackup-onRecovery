@@ -123,6 +123,30 @@ grep '<package name=' $packages_file | while read -r line; do
 
     fi
 done
+# Backup DCIM and Pictures folders
+ui_print "- Backing up DCIM and Pictures folders."
+
+# Create directories for DCIM and Pictures
+mkdir -p /sdcard/EmergencyBak/DCIM
+mkdir -p /sdcard/EmergencyBak/Pictures
+
+# Copy DCIM folder
+ui_print "- Collecting DCIM folder."
+if ! cp -r /sdcard/DCIM/* /sdcard/EmergencyBak/DCIM/; then
+    ui_print "! Failed to backup DCIM folder."
+    error_handler $LINENO
+else
+    ui_print "- DCIM folder backed up successfully."
+fi
+
+# Copy Pictures folder
+ui_print "- Collecting Pictures folder."
+if ! cp -r /sdcard/Pictures/* /sdcard/EmergencyBak/Pictures/; then
+    ui_print "! Failed to backup Pictures folder."
+    error_handler $LINENO
+else
+    ui_print "- Pictures folder backed up successfully."
+fi
 
 # zip the entire backup directory
 ui_print "- Zipping the entire backup directory."
