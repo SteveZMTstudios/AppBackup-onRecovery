@@ -43,7 +43,7 @@ Your computer should installed mtp driver and adb driver.
 
 As the title says, this script is used to backup app data on **RECOVERY ENVIRONMENT**.
 
-就像标题所说，这个脚本仅用于在**RECOVERY环境**中备份应用数据。
+就像标题所说，这个脚本可用于在**RECOVERY环境**中备份应用数据。
 
 #### Direct use by Script 直接使用脚本
 Download the **backup.sh**, the push into device.
@@ -129,7 +129,8 @@ adb shell su -c "sh /data/local/tmp/restore.sh"
 ## Features 功能
 
 - [x] Backup app data 备份应用数据
-- [ ] Restore app data 还原应用数据
+- [x] Restore app data 还原应用数据
+- [ ] Backup Gallery 备份相册
 - [ ] Backup Storage 备份存储
 
 ## Known Issues 已知问题
