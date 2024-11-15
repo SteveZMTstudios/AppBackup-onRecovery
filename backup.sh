@@ -13,7 +13,7 @@
 ############################################
 DEBUG=0
 # verbose when "-v" is passed as an argument
-if [[ $1 == "-v" ] || [ $DEBUG == "1" ]]; then
+if [[ $1 == "-v" ]] || [ $DEBUG == "1" ]; then
     set -x
     alias cp='cp -v'
     alias tar='tar -v'
@@ -97,7 +97,7 @@ grep '<package name=' $packages_file | while read -r line; do
         ui_print "- Collecting /data/user_de/$user_id/$package_name."
         mkdir -p $temp_backup_dir/data_user_de
         find "/data/user_de/$user_id/$package_name" -type f ! -path '*cache*' ! -path '*temp*' ! -path '*tmp*' -exec cp  --parents "{}" $temp_backup_dir/data_user_de/ \;
-        ui_print "- /data/user_de${package_name} collected. Not found is normal."
+        ui_print "- /data/user_de/${package_name} collected. Not found is normal."
 
         ui_print "- Collecting /data/media/obb/$package_name."
         mkdir -p $temp_backup_dir/media_obb
@@ -109,7 +109,7 @@ grep '<package name=' $packages_file | while read -r line; do
         find "/data/media/$user_id/Android/data/$package_name" -type f ! -path '*cache*' ! -path '*temp*' ! -path '*tmp*' -exec cp  --parents "{}" $temp_backup_dir/media_data/ \;
         ui_print "- /data/media/Android/data${package_name} collected. "
 
-        ui_print "- ${package_name} is tar.gz ing...  Please wait."
+        ui_print "- ${package_name} is packing...  Please wait."
         ui_print "[i] Although it seems to be stuck, it is actually working."
         # zip backup data
         if ! tar -czf /sdcard/EmergencyBak/${package_name}_backup.tar.gz -C $temp_backup_dir .; then
