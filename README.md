@@ -3,7 +3,7 @@ A suite of scripts used to backup app data on recovery. Suitable for that device
 
 Recovery环境下的应用备份套件，适用于安卓11+设备。用于在无法启动到Android时备份应急的应用数据。
 
-在twrp和orangefox中测试良好。
+在twrp和orangefox中和安卓16测试良好。
 
 
 ```bash
